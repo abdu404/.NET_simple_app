@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sticky</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Sticky.styles.css" asp-append-version="true" />
+    <style>
+        /* Custom styles that apply globally */
+        :root {
+            --sticky-primary: #6c5ce7;
+            --sticky-secondary: #a29bfe;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: rgba(60, 172, 174, 0.7) !important; /* Blue-green with medium transparency */
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--sticky-primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--sticky-primary);
+            border-color: var(--sticky-primary);
+        }
+
+            .btn-primary:hover {
+                background-color: #5649d1;
+                border-color: #5649d1;
+            }
+
+        .btn-outline-primary {
+            color: var(--sticky-primary);
+            border-color: var(--sticky-primary);
+        }
+
+            .btn-outline-primary:hover {
+                background-color: var(--sticky-primary);
+                border-color: var(--sticky-primary);
+            }
+
+        .footer {
+            background-color: rgba(60, 172, 174, 0.7) !important; /* Blue-green with medium transparency */
+            margin-top: auto;
+        }
+
+        /* Animation for modal */
+        .modal.fade .modal-dialog {
+            transform: translateY(-50px);
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal.show .modal-dialog {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-3">
+                <div class="container">
+                    <a class="navbar-brand fs-4 d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-sticky me-2"></i>Sticky
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">
+                                    <i class="bi bi-house-door me-1"></i>Home
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="btn btn-link nav-link text-dark">
+                                        <i class="bi bi-box-arrow-right me-1"></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    }
+
+    <div class="container flex-grow-1">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <footer class="border-top footer text-muted py-3">
+            <div class="container text-center">
+                &copy; @DateTime.Now.Year - Sticky - Your Productivity App
+            </div>
+        </footer>
+    }
+
+    <!-- JavaScript Libraries -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Styles", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
